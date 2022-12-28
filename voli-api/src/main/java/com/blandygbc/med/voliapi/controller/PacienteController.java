@@ -6,23 +6,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blandygbc.med.voliapi.medico.DadosCadastroMedico;
-import com.blandygbc.med.voliapi.medico.Medico;
-import com.blandygbc.med.voliapi.medico.MedicoRepository;
+import com.blandygbc.med.voliapi.paciente.DadosCadastroPaciente;
+import com.blandygbc.med.voliapi.paciente.Paciente;
+import com.blandygbc.med.voliapi.paciente.PacienteRepository;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/medicos")
-public class MeidcoController {
+@RequestMapping("pacientes")
+public class PacienteController {
 
     @Autowired
-    private MedicoRepository medicoRepository;
+    private PacienteRepository repository;
 
     @PostMapping
     @Transactional
-    public void cadastrar(@RequestBody @Valid DadosCadastroMedico dadosCadastroMedico) {
-        medicoRepository.save(new Medico(dadosCadastroMedico));
+    public void cadastrar(@RequestBody @Valid DadosCadastroPaciente dados) {
+        repository.save(new Paciente(dados));
     }
 }
