@@ -1,4 +1,4 @@
-package com.blandygbc.med.voliapi.infra;
+package com.blandygbc.med.voliapi.infra.exception;
 
 import java.util.List;
 
