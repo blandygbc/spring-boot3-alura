@@ -33,13 +33,28 @@ public class Medico {
     private Especialidade especialidade;
     @Embedded
     private Endereco endereco;
+    private boolean ativo;
 
     public Medico(DadosCadastroMedico dadosCadastroMedico) {
+        this.ativo = true;
         this.nome = dadosCadastroMedico.nome();
         this.email = dadosCadastroMedico.email();
         this.telefone = dadosCadastroMedico.telefone();
         this.crm = dadosCadastroMedico.crm();
         this.especialidade = dadosCadastroMedico.especialidade();
         this.endereco = new Endereco(dadosCadastroMedico.endereco());
+    }
+
+    public void atualizar(DadosAtualizarMedico dadosAtualizarMedico) {
+        if (dadosAtualizarMedico.nome() != null)
+            this.nome = dadosAtualizarMedico.nome();
+        if (dadosAtualizarMedico.telefone() != null)
+            this.telefone = dadosAtualizarMedico.telefone();
+        if (dadosAtualizarMedico.endereco() != null)
+            this.endereco.atualizar(dadosAtualizarMedico.endereco());
+    }
+
+    public void desativar() {
+        this.ativo = false;
     }
 }
