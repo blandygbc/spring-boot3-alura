@@ -1,6 +1,6 @@
-package com.blandygbc.med.voliapi.paciente;
+package com.blandygbc.med.voliapi.domain.paciente;
 
-import com.blandygbc.med.voliapi.endereco.Endereco;
+import com.blandygbc.med.voliapi.domain.endereco.Endereco;
 
 public record DadosDetalharPaciente(
         String nome,

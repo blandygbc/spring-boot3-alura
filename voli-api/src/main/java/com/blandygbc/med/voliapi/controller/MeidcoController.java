@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.blandygbc.med.voliapi.medico.DadosAtualizarMedico;
-import com.blandygbc.med.voliapi.medico.DadosCadastroMedico;
-import com.blandygbc.med.voliapi.medico.DadosDetalharMedico;
-import com.blandygbc.med.voliapi.medico.DadosListagemMedico;
-import com.blandygbc.med.voliapi.medico.Medico;
-import com.blandygbc.med.voliapi.medico.MedicoRepository;
+import com.blandygbc.med.voliapi.domain.medico.DadosAtualizarMedico;
+import com.blandygbc.med.voliapi.domain.medico.DadosCadastroMedico;
+import com.blandygbc.med.voliapi.domain.medico.DadosDetalharMedico;
+import com.blandygbc.med.voliapi.domain.medico.DadosListagemMedico;
+import com.blandygbc.med.voliapi.domain.medico.Medico;
+import com.blandygbc.med.voliapi.domain.medico.MedicoRepository;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -54,13 +54,8 @@ public class MeidcoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DadosDetalharMedico> detalhar(@PathVariable Long id) {
-        Optional<Medico> medicoOpt = medicoRepository.findById(id);
-        if (medicoOpt.isPresent()) {
-            return ResponseEntity.ok(new DadosDetalharMedico(medicoOpt.get()));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-
+        Medico medico = medicoRepository.getReferenceById(id);
+        return ResponseEntity.ok(new DadosDetalharMedico(medico));
     }
 
     @PutMapping
@@ -75,12 +70,8 @@ public class MeidcoController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<String> desativar(@PathVariable Long id) {
-        Optional<Medico> medicoOpt = medicoRepository.findById(id);
-        if (medicoOpt.isPresent()) {
-            medicoOpt.get().desativar();
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        Medico medico = medicoRepository.getReferenceById(id);
+        medico.desativar();
+        return ResponseEntity.noContent().build();
     }
 }

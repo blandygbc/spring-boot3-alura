@@ -1,6 +1,6 @@
-package com.blandygbc.med.voliapi.medico;
+package com.blandygbc.med.voliapi.domain.medico;
 
-import com.blandygbc.med.voliapi.endereco.Endereco;
+import com.blandygbc.med.voliapi.domain.endereco.Endereco;
 
 public record DadosDetalharMedico(
         Long id,

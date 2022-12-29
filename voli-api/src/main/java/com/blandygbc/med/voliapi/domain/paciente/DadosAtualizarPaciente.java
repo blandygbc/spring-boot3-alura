@@ -1,6 +1,6 @@
-package com.blandygbc.med.voliapi.paciente;
+package com.blandygbc.med.voliapi.domain.paciente;
 
-import com.blandygbc.med.voliapi.endereco.DadosEndereco;
+import com.blandygbc.med.voliapi.domain.endereco.DadosEndereco;
 
 import jakarta.validation.Valid;
 

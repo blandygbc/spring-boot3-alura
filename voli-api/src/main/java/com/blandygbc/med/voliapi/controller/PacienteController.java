@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.blandygbc.med.voliapi.paciente.DadosAtualizarPaciente;
-import com.blandygbc.med.voliapi.paciente.DadosCadastroPaciente;
-import com.blandygbc.med.voliapi.paciente.DadosDetalharPaciente;
-import com.blandygbc.med.voliapi.paciente.DadosListagemPaciente;
-import com.blandygbc.med.voliapi.paciente.Paciente;
-import com.blandygbc.med.voliapi.paciente.PacienteRepository;
+import com.blandygbc.med.voliapi.domain.paciente.DadosAtualizarPaciente;
+import com.blandygbc.med.voliapi.domain.paciente.DadosCadastroPaciente;
+import com.blandygbc.med.voliapi.domain.paciente.DadosDetalharPaciente;
+import com.blandygbc.med.voliapi.domain.paciente.DadosListagemPaciente;
+import com.blandygbc.med.voliapi.domain.paciente.Paciente;
+import com.blandygbc.med.voliapi.domain.paciente.PacienteRepository;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

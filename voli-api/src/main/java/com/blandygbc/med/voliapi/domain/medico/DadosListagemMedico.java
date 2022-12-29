@@ -1,4 +1,4 @@
-package com.blandygbc.med.voliapi.medico;
+package com.blandygbc.med.voliapi.domain.medico;
 
 public record DadosListagemMedico(
         Long id,

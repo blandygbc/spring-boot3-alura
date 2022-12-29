@@ -1,4 +1,4 @@
-package com.blandygbc.med.voliapi.paciente;
+package com.blandygbc.med.voliapi.domain.paciente;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
