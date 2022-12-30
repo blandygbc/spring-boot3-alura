@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blandygbc.med.voliapi.domain.usuario.DadosAutenticacao;
+import com.blandygbc.med.voliapi.domain.usuario.Usuario;
+import com.blandygbc.med.voliapi.infra.security.DadosTokenJWT;
+import com.blandygbc.med.voliapi.infra.security.TokenService;
 
 import jakarta.validation.Valid;
 
@@ -21,11 +24,15 @@ public class AutenticacaoController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping
     public ResponseEntity<Object> logar(@RequestBody @Valid DadosAutenticacao dadosAutenticacao) {
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dadosAutenticacao.login(),
+        var authTtoken = new UsernamePasswordAuthenticationToken(dadosAutenticacao.login(),
                 dadosAutenticacao.senha());
-        Authentication authenticate = authenticationManager.authenticate(token);
-        return ResponseEntity.ok().build();
+        Authentication authenticate = authenticationManager.authenticate(authTtoken);
+        String tokenJWT = tokenService.gerarToken((Usuario) authenticate.getPrincipal());
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 }
