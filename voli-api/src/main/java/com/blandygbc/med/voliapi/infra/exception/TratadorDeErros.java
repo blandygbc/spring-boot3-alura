@@ -8,6 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.blandygbc.med.voliapi.domain.exception.CancelamentoInvalidoException;
+
 import jakarta.persistence.EntityNotFoundException;
 
 @RestControllerAdvice
@@ -16,6 +18,11 @@ public class TratadorDeErros {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> tratarErro404() {
         return ResponseEntity.notFound().build();
+    }
+
+    @ExceptionHandler(CancelamentoInvalidoException.class)
+    public ResponseEntity<JsonMessage> tratarCancelamentoInvalido(CancelamentoInvalidoException ex) {
+        return ResponseEntity.badRequest().body(new JsonMessage(ex.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -28,5 +35,8 @@ public class TratadorDeErros {
         public DadosErroValidacao(FieldError error) {
             this(error.getField(), error.getDefaultMessage());
         }
+    }
+
+    private record JsonMessage(String message) {
     }
 }
