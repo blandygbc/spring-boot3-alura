@@ -14,11 +14,13 @@ import com.blandygbc.med.voliapi.domain.consulta.DadosCancelarAgendamento;
 import com.blandygbc.med.voliapi.domain.consulta.DadosDetalharConsulta;
 import com.blandygbc.med.voliapi.util.JsonMessage;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/consultas")
+@SecurityRequirement(name = "bearer-key")
 public class ConsultaController {
 
     @Autowired

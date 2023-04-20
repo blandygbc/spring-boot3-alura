@@ -26,8 +26,8 @@ public class SecurityConfigurations {
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/usuarios/login").permitAll()
-                .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+                .requestMatchers(HttpMethod.POST, "/usuarios", "/usuarios/login").permitAll()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                 /**
                  * Poderia ser definido um controle de acesso por perfil usando o método hasRole
                  * conforme abaixo:

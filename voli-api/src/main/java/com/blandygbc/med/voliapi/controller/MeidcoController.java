@@ -24,11 +24,13 @@ import com.blandygbc.med.voliapi.domain.medico.DadosListagemMedico;
 import com.blandygbc.med.voliapi.domain.medico.Medico;
 import com.blandygbc.med.voliapi.domain.medico.MedicoRepository;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/medicos")
+@SecurityRequirement(name = "bearer-key")
 public class MeidcoController {
 
     @Autowired

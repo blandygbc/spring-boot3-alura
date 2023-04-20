@@ -2,10 +2,13 @@ package com.blandygbc.med.voliapi.domain.consulta.validacoes;
 
 import java.time.LocalDateTime;
 
+import org.springframework.stereotype.Component;
+
 import com.blandygbc.med.voliapi.domain.consulta.Consulta;
 import com.blandygbc.med.voliapi.domain.consulta.MotivoCancelamento;
 import com.blandygbc.med.voliapi.domain.exception.CancelamentoInvalidoException;
 
+@Component
 public class ValidadorCancelarComAntecedencia implements ValidadorCancelamentoDeConsulta {
 
     @Override
