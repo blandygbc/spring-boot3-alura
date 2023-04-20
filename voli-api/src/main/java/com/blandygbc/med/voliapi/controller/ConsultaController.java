@@ -12,6 +12,7 @@ import com.blandygbc.med.voliapi.domain.consulta.AgendaDeConsultasService;
 import com.blandygbc.med.voliapi.domain.consulta.DadosAgendamentoConsulta;
 import com.blandygbc.med.voliapi.domain.consulta.DadosCancelarAgendamento;
 import com.blandygbc.med.voliapi.domain.consulta.DadosDetalharConsulta;
+import com.blandygbc.med.voliapi.util.JsonMessage;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -26,16 +27,16 @@ public class ConsultaController {
     @PostMapping
     @Transactional
     public ResponseEntity<DadosDetalharConsulta> agendar(@RequestBody @Valid DadosAgendamentoConsulta agendamento) {
-        agendaService.agendar(agendamento);
-        return ResponseEntity.ok(new DadosDetalharConsulta(null, null, null, null));
+        DadosDetalharConsulta consultaAgendada = agendaService.agendar(agendamento);
+        return ResponseEntity.ok(consultaAgendada);
 
     }
 
     @DeleteMapping
     @Transactional
-    public ResponseEntity<String> agendar(@RequestBody @Valid DadosCancelarAgendamento dadosCancelamento) {
+    public ResponseEntity<JsonMessage> cancelar(@RequestBody @Valid DadosCancelarAgendamento dadosCancelamento) {
         agendaService.cancelarAgendamento(dadosCancelamento);
-        return ResponseEntity.ok("Consulta cancelada com sucesso!");
+        return ResponseEntity.ok(new JsonMessage("Consulta cancelada com sucesso!"));
 
     }
 

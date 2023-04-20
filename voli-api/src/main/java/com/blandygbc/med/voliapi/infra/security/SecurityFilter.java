@@ -15,7 +15,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.var;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
@@ -34,7 +33,8 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (tokenJWT != null) {
             String subject = tokenService.getSubject(tokenJWT);
             UserDetails userDetails = usuarioRepository.findByLogin(subject);
-            var authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
+            var authentication = new UsernamePasswordAuthenticationToken(userDetails,
+                    null,
                     userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

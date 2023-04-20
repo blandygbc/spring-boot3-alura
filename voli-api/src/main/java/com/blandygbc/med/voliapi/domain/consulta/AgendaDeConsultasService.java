@@ -1,11 +1,12 @@
 package com.blandygbc.med.voliapi.domain.consulta;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.blandygbc.med.voliapi.domain.exception.CancelamentoInvalidoException;
+import com.blandygbc.med.voliapi.domain.consulta.validacoes.ValidadorAgendamentoDeConsulta;
+import com.blandygbc.med.voliapi.domain.consulta.validacoes.ValidadorCancelamentoDeConsulta;
 import com.blandygbc.med.voliapi.domain.exception.ValidacaoException;
 import com.blandygbc.med.voliapi.domain.medico.Medico;
 import com.blandygbc.med.voliapi.domain.medico.MedicoRepository;
@@ -25,27 +26,43 @@ public class AgendaDeConsultasService {
     @Autowired
     private PacienteRepository pacienteRepository;
 
-    public void agendar(DadosAgendamentoConsulta dadosAgendamento) {
+    @Autowired
+    private List<ValidadorAgendamentoDeConsulta> validadoresAgendamento;
+
+    @Autowired
+    private List<ValidadorCancelamentoDeConsulta> validadoresCancelamento;
+
+    public DadosDetalharConsulta agendar(DadosAgendamentoConsulta dadosAgendamento) {
+
+        validadoresAgendamento.forEach(validador -> validador.validar(dadosAgendamento));
         var paciente = pacienteRepository.getReferenceById(dadosAgendamento.idPaciente());
-        Medico medico = escolherMedico(dadosAgendamento);
+        var medico = escolherMedico(dadosAgendamento);
+        if (medico == null) {
+            throw new ValidacaoException("Não há medicos disponíveis na data e hora escolhida.");
+        }
+
         var consulta = new Consulta(null, medico, paciente, dadosAgendamento.data(), null);
         repository.save(consulta);
+        return new DadosDetalharConsulta(consulta);
     }
 
     private Medico escolherMedico(DadosAgendamentoConsulta dadosAgendamento) {
-        if (dadosAgendamento.idMedico() != null)
+        if (dadosAgendamento.idMedico() != null) {
             return medicoRepository.getReferenceById(dadosAgendamento.idMedico());
-        if (dadosAgendamento.especialidade() != null)
+        }
+        if (dadosAgendamento.especialidade() == null) {
             throw new ValidacaoException("Especialidade é obrigatória quando o médico não for escolhido!");
+        }
         return medicoRepository.escolherMedicoAleatorioLivreNaData(dadosAgendamento.especialidade(),
                 dadosAgendamento.data());
     }
 
     public void cancelarAgendamento(@Valid DadosCancelarAgendamento dadosCancelamento) {
-        var consulta = repository.getReferenceById(dadosCancelamento.idConsulta());
-        if (LocalDateTime.now().isBefore(consulta.getData().minusHours(24))) {
-            throw new CancelamentoInvalidoException("A consulta só pode ser cancelada com 24h de antecedência");
+        if (!repository.existsById(dadosCancelamento.idConsulta())) {
+            throw new ValidacaoException("Consulta não encontrada.");
         }
+        var consulta = repository.getReferenceById(dadosCancelamento.idConsulta());
+        validadoresCancelamento.forEach(validador -> validador.validar(consulta, dadosCancelamento.motivo()));
         consulta.cancelar(dadosCancelamento.motivo());
     }
 }
