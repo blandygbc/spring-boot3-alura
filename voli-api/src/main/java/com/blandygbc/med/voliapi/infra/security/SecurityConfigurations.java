@@ -23,12 +23,13 @@ public class SecurityConfigurations {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/login").permitAll()
+        return http.csrf(csrf -> csrf.disable())
+                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.POST, "/usuarios", "/usuarios/login").permitAll()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                 /**
-                 * Poderia ser definido um controle de acesso por perfil usando o método hasRoke
+                 * Poderia ser definido um controle de acesso por perfil usando o método hasRole
                  * conforme abaixo:
                  * .requestMatchers(HttpMethod.DELETE, "/medicos").hasRole("ADMIN")
                  * .requestMatchers(HttpMethod.DELETE, "/pacientes").hasRole("ADMIN")

@@ -1,0 +1,17 @@
+version: '3'
+volumes:
+  data:
+services:
+  db:
+    image: mariadb:10.11.2
+    container_name: mariadb-volimed
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: volimed
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_TCP_PORT: ${MYSQL_TCP_PORT}
+    volumes:
+      - ${DATA_LOCATION}:/var/lib/mysql
+    ports:
+      - "${MYSQL_TCP_PORT}:${MYSQL_TCP_PORT}"
